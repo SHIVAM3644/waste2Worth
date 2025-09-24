@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:waste2worth/common_componets/commom_button.dart';
+import 'package:waste2worth/common_componets/common_text.dart';
+import 'package:waste2worth/common_componets/common_textformfield.dart';
+import 'package:waste2worth/core_auth/view/pages/forget_password.dart';
 import 'package:waste2worth/core_auth/view/pages/signUp_page.dart';
 
 class LoginPage extends StatefulWidget {
@@ -30,32 +34,29 @@ class _LoginPageState extends State<LoginPage> {
                 'Smart Waste',
                 style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
               ),
-              Text('Login to your account'),
+              // Text('Login to your account'),
+              CommonText(text: 'Login to your account'),
               SizedBox(height: 40),
-              TextFormField(
-                decoration: InputDecoration(
-                  prefixIcon: Icon(Icons.email_outlined),
 
-                  // labelText: 'Email',
-                  hintText: 'Email or Username',
-                  border: OutlineInputBorder(),
-                ),
+              CommonTextFormField(
+                controller: null,
+                hintText: 'Email or username',
+                prefixIcon: Icon(Icons.email_outlined),
               ),
               SizedBox(height: 20),
-              TextFormField(
-                decoration: InputDecoration(
-                  prefixIcon: Icon(Icons.lock),
 
-                  // labelText: 'Email',
-                  hintText: 'Password',
-                  border: OutlineInputBorder(),
-                ),
+              CommonTextFormField(
+                controller: null,
+                hintText: 'Password',
+                prefixIcon: Icon(Icons.lock_outline),
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   TextButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Get.to(ForgetPassword());
+                    },
                     child: Text(
                       'Forgtet Password ?',
                       style: TextStyle(color: Colors.green),
@@ -63,17 +64,12 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                 ],
               ),
-              ElevatedButton(
+              CommomButton(
+                text: 'Login',
                 onPressed: () {},
-                style: ElevatedButton.styleFrom(
-                  fixedSize: Size(double.maxFinite, 45),
-                  backgroundColor: Colors.green,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadiusGeometry.circular(8),
-                  ),
-                ),
-                child: Text('Login', style: TextStyle(color: Colors.white)),
+                color: Colors.green,
               ),
+
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:waste2worth/common_componets/commom_button.dart';
+import 'package:waste2worth/common_componets/common_textformfield.dart';
 import 'package:waste2worth/core_auth/view/pages/login_page.dart';
 
 class SignupPage extends StatelessWidget {
@@ -27,44 +29,31 @@ class SignupPage extends StatelessWidget {
               ),
               Text('Join the Smart Waste Management'),
               SizedBox(height: 40),
-              TextFormField(
-                decoration: InputDecoration(
-                  prefixIcon: Icon(Icons.person_outline_rounded),
 
-                  // labelText: 'Email',
-                  hintText: 'Full Name',
-                  border: OutlineInputBorder(),
-                ),
+              CommonTextFormField(
+                controller: null,
+                hintText: 'Full Name',
+                prefixIcon: Icon(Icons.person_3_outlined),
               ),
               SizedBox(height: 20),
-              TextFormField(
-                decoration: InputDecoration(
-                  prefixIcon: Icon(Icons.email_outlined),
 
-                  // labelText: 'Email',
-                  hintText: 'Email Address',
-                  border: OutlineInputBorder(),
-                ),
+              CommonTextFormField(
+                controller: null,
+                hintText: 'Email Address',
+                prefixIcon: Icon(Icons.email_outlined),
               ),
               SizedBox(height: 20),
-              TextFormField(
-                decoration: InputDecoration(
-                  prefixIcon: Icon(Icons.lock),
 
-                  // labelText: 'Email',
-                  hintText: 'Password',
-                  border: OutlineInputBorder(),
-                ),
+              CommonTextFormField(
+                controller: null,
+                hintText: 'Password',
+                prefixIcon: Icon(Icons.lock_outline),
               ),
               SizedBox(height: 20),
-              TextFormField(
-                decoration: InputDecoration(
-                  prefixIcon: Icon(Icons.lock_reset_sharp),
-
-                  // labelText: 'Email',
-                  hintText: 'Confirm Password',
-                  border: OutlineInputBorder(),
-                ),
+              CommonTextFormField(
+                controller: null,
+                hintText: 'Confirm Password',
+                prefixIcon: Icon(Icons.lock_reset),
               ),
               SizedBox(height: 10),
               Row(
@@ -79,16 +68,11 @@ class SignupPage extends StatelessWidget {
                 ],
               ),
               SizedBox(height: 10),
-              ElevatedButton(
+
+              CommomButton(
+                text: 'Sign up',
                 onPressed: () {},
-                style: ElevatedButton.styleFrom(
-                  fixedSize: Size(double.maxFinite, 45),
-                  backgroundColor: Colors.green,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadiusGeometry.circular(8),
-                  ),
-                ),
-                child: Text('Login', style: TextStyle(color: Colors.white)),
+                color: Colors.green,
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,

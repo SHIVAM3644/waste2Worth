@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:waste2worth/core_auth/view/pages/login_page.dart';
 import 'package:waste2worth/core_process_guide/View/core_process_guide_list.dart';
 
 void main() {
@@ -11,7 +13,8 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+   
+    return GetMaterialApp(
       title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
@@ -32,7 +35,8 @@ class MyApp extends StatelessWidget {
         // tested with just a hot reload.
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
-      home: const CoreProcessGuideList(),
+      // home: const CoreProcessGuideList(),
+      home: LoginPage(),
     );
   }
 }
