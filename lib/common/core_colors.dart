@@ -260,7 +260,12 @@ static final Color borderColor = const Color.fromARGB(255, 157, 154, 154);
   static const thunderbird = Color(0xFFB63027);
   static const forgotMeNot = Color(0xFFFEF0F0);
   static const arcticMagenta = Color(0xFFFF00B9);
-
+    static const text1color = Colors.black;
+  static const text2Color = Colors.black54;
+  static const backgroundColor = desertStormAlt1;
+  static const surfacecolor = Colors.white;
+  static const surfaceOnSurface = smokeGrey;
+  
   static const hintOfGreen = Color(0xFFDFFFE6);
   static const aquaSqueeze = Color(0xFFE3F6F2);
   static const honeyDue = Color(0xFFF0FFEB);

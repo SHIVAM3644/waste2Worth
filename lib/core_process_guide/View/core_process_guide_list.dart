@@ -2,8 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:waste2worth/common/core_colors.dart';
 import 'package:waste2worth/common_componets/common_decoration.dart';
+import 'package:waste2worth/common_componets/core_blur_container.dart';
+import 'package:waste2worth/common_componets/core_cashed_image.dart';
 import 'package:waste2worth/core_process_guide/Controller/process_guide_controller.dart';
 import 'package:waste2worth/core_process_guide/Model/ProcessGuideModel.dart';
+import 'package:waste2worth/core_process_guide/View/core_process_detail_page.dart';
 
 final _processGuideController = Get.put(ProcessGuideController());
 
@@ -31,6 +34,7 @@ class _CoreProcessGuideListState extends State<CoreProcessGuideList> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: CoreColors.background,
+      extendBodyBehindAppBar: true,
       body: _processGuideController.obx((state) {
         return CustomScrollView(
           slivers: [
@@ -53,11 +57,9 @@ class _CoreProcessGuideListState extends State<CoreProcessGuideList> {
                       bottomLeft: Radius.circular(21),
                       bottomRight: Radius.circular(21),
                     ),
-                    child: Container(
-                      decoration: CommonDecoration.coreBoxDecoration(
-                        radius: 0,
-                        color: CoreColors.green,
-                      ),
+                    child: CoreBlurContainer(
+                      color: Color(0xBF008000),
+                      blur: 13,
                       child: FlexibleSpaceBar(
                         collapseMode: CollapseMode.parallax,
                         centerTitle: true,
@@ -125,121 +127,118 @@ class _CoreProcessGuideListState extends State<CoreProcessGuideList> {
   }
 
   Widget _buildWasteManagementListContainer(ProcessGuideModel? item) {
-    return Container(
-      width: MediaQuery.of(context).size.width,
-      padding: EdgeInsets.all(16),
-      margin: EdgeInsets.only(left: 16, right: 16, bottom: 16),
-      decoration: CommonDecoration.coreBoxDecoration(
-        radius: 16,
-        border: Border.all(color: CoreColors.borderColor),
-      ),
-      child: Column(
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Container(
-                      padding: EdgeInsets.symmetric(
-                        vertical: 2,
-                        horizontal: 11,
-                      ),
-                      margin: EdgeInsets.only(bottom: 4),
-                      decoration: CommonDecoration.coreBoxDecoration(
-                        radius: 100,
-                        color: CoreColors.lightGreen,
-                      ),
-                      child: Text(
-                        item?.categoryType ?? "",
-                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                          color: CoreColors.textColor,
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => CoreProcessDetailPage(item: item,)),
+        );
+      },
+      child: Container(
+        width: MediaQuery.of(context).size.width,
+        padding: EdgeInsets.all(16),
+        margin: EdgeInsets.only(left: 16, right: 16, bottom: 16),
+
+        decoration: CoreBoxDecoration.getBoxDecoration(
+          borderRadius: 16,
+          border: Border.all(color: CoreColors.toryBlue20),
+        ),
+        child: Column(
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Container(
+                        padding: EdgeInsets.symmetric(
+                          vertical: 2,
+                          horizontal: 11,
+                        ),
+                        margin: EdgeInsets.only(bottom: 4),
+                        decoration: CoreBoxDecoration.getBoxDecoration(
+                          borderRadius: 100,
+                          color: CoreColors.lightGreen,
+                        ),
+                        child: Text(
+                          item?.categoryType ?? "",
+                          style: Theme.of(context).textTheme.bodyMedium
+                              ?.copyWith(color: CoreColors.textColor),
                         ),
                       ),
-                    ),
-                    Text(
-                      item?.title ?? "-",
-                      overflow: TextOverflow.ellipsis,
-                      maxLines: 2,
-                      style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                        color: CoreColors.textColor,
-                        fontWeight: FontWeight.w500,
+                      Text(
+                        item?.title ?? "-",
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 2,
+                        style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                          color: CoreColors.textColor,
+                          fontWeight: FontWeight.w500,
+                        ),
                       ),
-                    ),
-                    Text(
-                      item?.completeDescription ?? "--",
-                      overflow: TextOverflow.ellipsis,
-                      maxLines: 2,
-                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                        color: CoreColors.textColor,
-                        fontWeight: FontWeight.w300,
+                      Text(
+                        item?.completeDescription ?? "--",
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 2,
+                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                          color: CoreColors.textColor,
+                          fontWeight: FontWeight.w300,
+                        ),
                       ),
-                    ),
-                    const SizedBox(height: 11),
-                  ],
-                ),
-              ),
-              const SizedBox(width: 15),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.end,
-                crossAxisAlignment: CrossAxisAlignment.end,
-
-                children: [
-                  if(item?.logoUrl=="")...[
-                    ClipRRect(
-                    borderRadius: BorderRadiusGeometry.circular(11),
-                    child: Image.network(
-                      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSU__e8meBPfg_ZA1SfVBSOL5g_hC0OlFp7lQ&s",
-                      height: 60,
-                      width: 60,
-                      fit: BoxFit.fill,
-                    ),
-                  )
-                  ]
-                  else...[ClipRRect(
-                    borderRadius: BorderRadiusGeometry.circular(11),
-                    child: Image.network(
-                      item?.logoUrl ?? "",
-                      height: 60,
-                      width: 60,
-                      fit: BoxFit.fill,
-                    ),
-                  )]
-                  
-                ],
-              ),
-            ],
-          ),
-          Row(
-            children: [
-              Icon(Icons.star, color: Colors.green, size: 20),
-              const SizedBox(width: 4),
-              Expanded(
-                child: Text(
-                  item?.difficultyLevel ?? "-",
-
-                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                    color: CoreColors.textColor,
-                    fontWeight: FontWeight.w600,
+                      const SizedBox(height: 11),
+                    ],
                   ),
                 ),
-              ),
-              Icon(Icons.alarm, color: Colors.grey, size: 17),
-              const SizedBox(width: 4),
-              Text(
-                item?.estimatedTime ?? "",
+                const SizedBox(width: 15),
+                CoreCachedImageContainer(
+                  width: 60,
+                  height: 60,
+                  fit: BoxFit.cover,
 
-                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                  color: CoreColors.borderColor,
-                  fontWeight: FontWeight.w400,
+                  url: item?.logoUrl ?? "-",
+                  containerPadding: const EdgeInsets.all(0),
+                  decoration: CoreBoxDecoration.getSmoothBoxDecoration(
+                    borderRadius: 12,
+                    color: CoreColors.backgroundColor,
+                  ),
+                  placeHolder: buildPlaceholder(
+                    name: item?.title ?? "-",
+                    context: context,
+                    color: CoreColors.text1color,
+                  ),
                 ),
-              ),
-            ],
-          ),
-        ],
+              ],
+            ),
+            Row(
+              children: [
+                Icon(Icons.star, color: Colors.green, size: 20),
+                const SizedBox(width: 4),
+                Expanded(
+                  child: Text(
+                    item?.difficultyLevel ?? "-",
+
+                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                      color: CoreColors.textColor,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ),
+                Icon(Icons.alarm, color: Colors.grey, size: 17),
+                const SizedBox(width: 4),
+                Text(
+                  item?.estimatedTime ?? "",
+
+                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                    color: CoreColors.borderColor,
+                    fontWeight: FontWeight.w400,
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }
