@@ -1,7 +1,11 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:waste2worth/common/core_colors.dart';
 import 'package:waste2worth/common_componets/common_decoration.dart';
+import 'package:waste2worth/core_process_guide/Controller/process_guide_controller.dart';
+import 'package:waste2worth/core_process_guide/Model/ProcessGuideModel.dart';
+
+final _processGuideController = Get.put(ProcessGuideController());
 
 class CoreProcessGuideList extends StatefulWidget {
   const CoreProcessGuideList({super.key});
@@ -12,101 +16,115 @@ class CoreProcessGuideList extends StatefulWidget {
 
 class _CoreProcessGuideListState extends State<CoreProcessGuideList> {
   @override
+  void initState() {
+    _processGuideController.fetchProcessGuides();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    Get.delete<ProcessGuideController>();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: CoreColors.background,
-      body: CustomScrollView(
-        slivers: [
-          SliverAppBar(
-            pinned: true,
-            expandedHeight: 150,
-            toolbarHeight: 61,
-            centerTitle: true,
-            backgroundColor: Colors.transparent,
-            elevation: 0,
-            flexibleSpace: LayoutBuilder(
-              builder: (context, constraints) {
-                final collapsedHeight =
-                    kToolbarHeight + MediaQuery.of(context).padding.top;
-                final isCollapsed =
-                    constraints.biggest.height <= collapsedHeight + 10;
+      body: _processGuideController.obx((state) {
+        return CustomScrollView(
+          slivers: [
+            SliverAppBar(
+              pinned: true,
+              expandedHeight: 150,
+              toolbarHeight: 61,
+              centerTitle: true,
+              backgroundColor: Colors.transparent,
+              elevation: 0,
+              flexibleSpace: LayoutBuilder(
+                builder: (context, constraints) {
+                  final collapsedHeight =
+                      kToolbarHeight + MediaQuery.of(context).padding.top;
+                  final isCollapsed =
+                      constraints.biggest.height <= collapsedHeight + 10;
 
-                return ClipRRect(
-                  borderRadius: const BorderRadius.only(
-                    bottomLeft: Radius.circular(21),
-                    bottomRight: Radius.circular(21),
-                  ),
-                  child: Container(
-                    decoration: CommonDecoration.coreBoxDecoration(
-                      radius: 0,
-                      color: CoreColors.green,
+                  return ClipRRect(
+                    borderRadius: const BorderRadius.only(
+                      bottomLeft: Radius.circular(21),
+                      bottomRight: Radius.circular(21),
                     ),
-                    child: FlexibleSpaceBar(
-                      collapseMode: CollapseMode.parallax,
-                      centerTitle: true,
-                      title: AnimatedOpacity(
-                        duration: const Duration(milliseconds: 200),
-                        opacity: isCollapsed ? 1 : 0,
-                        child: Text(
-                          "Waste2Worth",
-                          style: Theme.of(context).textTheme.headlineSmall
-                              ?.copyWith(
-                                color: CoreColors.textWhiteground,
-                                fontWeight: FontWeight.bold,
+                    child: Container(
+                      decoration: CommonDecoration.coreBoxDecoration(
+                        radius: 0,
+                        color: CoreColors.green,
+                      ),
+                      child: FlexibleSpaceBar(
+                        collapseMode: CollapseMode.parallax,
+                        centerTitle: true,
+                        title: AnimatedOpacity(
+                          duration: const Duration(milliseconds: 200),
+                          opacity: isCollapsed ? 1 : 0,
+                          child: Text(
+                            "Waste2Worth",
+                            style: Theme.of(context).textTheme.headlineSmall
+                                ?.copyWith(
+                                  color: CoreColors.textWhiteground,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                          ),
+                        ),
+                        background: Padding(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 3,
+                            vertical: 16,
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              Text(
+                                "Welcome!",
+                                style: Theme.of(context).textTheme.headlineLarge
+                                    ?.copyWith(
+                                      color: CoreColors.textWhiteground,
+                                      fontWeight: FontWeight.w600,
+                                    ),
                               ),
-                        ),
-                      ),
-                      background: Padding(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 3,
-                          vertical: 16,
-                        ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            Text(
-                              "Welcome!",
-                              style: Theme.of(context).textTheme.headlineLarge
-                                  ?.copyWith(
-                                    color: CoreColors.textWhiteground,
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                            ),
-                            Text(
-                              "Turn your waste into value",
-                              textAlign: TextAlign.center,
-                              style: Theme.of(context).textTheme.titleSmall
-                                  ?.copyWith(
-                                    color: CoreColors.textWhiteground,
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: 19,
-                                  ),
-                            ),
-                          ],
+                              Text(
+                                "Turn your waste into value",
+                                textAlign: TextAlign.center,
+                                style: Theme.of(context).textTheme.titleSmall
+                                    ?.copyWith(
+                                      color: CoreColors.textWhiteground,
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 19,
+                                    ),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                );
+                  );
+                },
+              ),
+            ),
+            const SliverToBoxAdapter(child: SizedBox(height: 31)),
+            SliverList.builder(
+              itemCount: state?.length,
+              itemBuilder: (context, index) {
+                return _buildWasteManagementListContainer(state?[index]);
               },
             ),
-          ),
-          const SliverToBoxAdapter(child: SizedBox(height: 31)),
-          SliverList.builder(
-            itemCount: 10,
-            itemBuilder: (context, index) {
-              return _buildWasteManagementListContainer();
-            },
-          ),
 
-          const SliverToBoxAdapter(child: SizedBox(height: 101)),
-        ],
-      ),
+            const SliverToBoxAdapter(child: SizedBox(height: 101)),
+          ],
+        );
+      }),
     );
   }
 
-  Widget _buildWasteManagementListContainer() {
+  Widget _buildWasteManagementListContainer(ProcessGuideModel? item) {
     return Container(
       width: MediaQuery.of(context).size.width,
       padding: EdgeInsets.all(16),
@@ -136,14 +154,14 @@ class _CoreProcessGuideListState extends State<CoreProcessGuideList> {
                         color: CoreColors.lightGreen,
                       ),
                       child: Text(
-                        "Plastic",
+                        item?.categoryType ?? "",
                         style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                           color: CoreColors.textColor,
                         ),
                       ),
                     ),
                     Text(
-                      "Bird Feeder",
+                      item?.title ?? "-",
                       overflow: TextOverflow.ellipsis,
                       maxLines: 2,
                       style: Theme.of(context).textTheme.bodyLarge?.copyWith(
@@ -152,7 +170,7 @@ class _CoreProcessGuideListState extends State<CoreProcessGuideList> {
                       ),
                     ),
                     Text(
-                      " A bird feeder madd up of plastic having nsdfjfr cdhbwf wjbfr  fwubfrjdwfbuer bfwfrb ",
+                      item?.completeDescription ?? "--",
                       overflow: TextOverflow.ellipsis,
                       maxLines: 2,
                       style: Theme.of(context).textTheme.bodyMedium?.copyWith(
@@ -170,15 +188,27 @@ class _CoreProcessGuideListState extends State<CoreProcessGuideList> {
                 crossAxisAlignment: CrossAxisAlignment.end,
 
                 children: [
-                  ClipRRect(
+                  if(item?.logoUrl=="")...[
+                    ClipRRect(
                     borderRadius: BorderRadiusGeometry.circular(11),
                     child: Image.network(
-                      "https://media.gettyimages.com/id/1487330151/photo/great-tit-birds-on-garden-feeder.jpg?s=612x612&w=gi&k=20&c=FjsyiAi8QLhWXJqT7yg7FBzPjmMoGbIdUvdAjle-lHs=",
+                      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSU__e8meBPfg_ZA1SfVBSOL5g_hC0OlFp7lQ&s",
                       height: 60,
                       width: 60,
                       fit: BoxFit.fill,
                     ),
-                  ),
+                  )
+                  ]
+                  else...[ClipRRect(
+                    borderRadius: BorderRadiusGeometry.circular(11),
+                    child: Image.network(
+                      item?.logoUrl ?? "",
+                      height: 60,
+                      width: 60,
+                      fit: BoxFit.fill,
+                    ),
+                  )]
+                  
                 ],
               ),
             ],
@@ -189,7 +219,7 @@ class _CoreProcessGuideListState extends State<CoreProcessGuideList> {
               const SizedBox(width: 4),
               Expanded(
                 child: Text(
-                  "Easy",
+                  item?.difficultyLevel ?? "-",
 
                   style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                     color: CoreColors.textColor,
@@ -200,7 +230,7 @@ class _CoreProcessGuideListState extends State<CoreProcessGuideList> {
               Icon(Icons.alarm, color: Colors.grey, size: 17),
               const SizedBox(width: 4),
               Text(
-                "15-20 min",
+                item?.estimatedTime ?? "",
 
                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                   color: CoreColors.borderColor,
