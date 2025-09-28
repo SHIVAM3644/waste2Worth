@@ -8,7 +8,7 @@ class CoreDesignSystem {
   CoreDesignSystem._();
   static final CoreDesignSystem instance = CoreDesignSystem._();
   bool getEnhanceUIStatus() {
-    return true;
+    return false;
   }
 
   bool get isDark => getEnhanceUIStatus();
