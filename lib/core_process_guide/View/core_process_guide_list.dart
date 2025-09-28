@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:waste2worth/common/core_colors.dart';
+import 'package:waste2worth/common/core_design_system.dart';
 import 'package:waste2worth/common_componets/common_decoration.dart';
 import 'package:waste2worth/common_componets/core_blur_container.dart';
 import 'package:waste2worth/common_componets/core_cashed_image.dart';
@@ -33,7 +34,7 @@ class _CoreProcessGuideListState extends State<CoreProcessGuideList> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: CoreColors.background,
+      backgroundColor: CoreDesignSystem.instance.background,
       extendBodyBehindAppBar: true,
       body: _processGuideController.obx((state) {
         return CustomScrollView(
@@ -58,7 +59,7 @@ class _CoreProcessGuideListState extends State<CoreProcessGuideList> {
                       bottomRight: Radius.circular(21),
                     ),
                     child: CoreBlurContainer(
-                      color: Color(0xBF008000),
+                      color: CoreDesignSystem.instance.appBarColor,
                       blur: 13,
                       child: FlexibleSpaceBar(
                         collapseMode: CollapseMode.parallax,
@@ -131,7 +132,9 @@ class _CoreProcessGuideListState extends State<CoreProcessGuideList> {
       onTap: () {
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => CoreProcessDetailPage(item: item,)),
+          MaterialPageRoute(
+            builder: (context) => CoreProcessDetailPage(item: item),
+          ),
         );
       },
       child: Container(
@@ -139,9 +142,14 @@ class _CoreProcessGuideListState extends State<CoreProcessGuideList> {
         padding: EdgeInsets.all(16),
         margin: EdgeInsets.only(left: 16, right: 16, bottom: 16),
 
-        decoration: CoreBoxDecoration.getBoxDecoration(
+        decoration: CoreBoxDecoration.getSmoothBoxDecoration(
           borderRadius: 16,
-          border: Border.all(color: CoreColors.toryBlue20),
+          color: CoreDesignSystem.instance.surface,
+          side: BorderSide(
+            color: CoreDesignSystem.instance.isDark
+                ? Colors.white12
+                : CoreColors.toryBlue20,
+          ),
         ),
         child: Column(
           children: [
@@ -161,12 +169,14 @@ class _CoreProcessGuideListState extends State<CoreProcessGuideList> {
                         margin: EdgeInsets.only(bottom: 4),
                         decoration: CoreBoxDecoration.getBoxDecoration(
                           borderRadius: 100,
-                          color: CoreColors.lightGreen,
+                          color: CoreDesignSystem.instance.success,
                         ),
                         child: Text(
                           item?.categoryType ?? "",
                           style: Theme.of(context).textTheme.bodyMedium
-                              ?.copyWith(color: CoreColors.textColor),
+                              ?.copyWith(
+                                color: CoreDesignSystem.instance.text1,
+                              ),
                         ),
                       ),
                       Text(
@@ -174,7 +184,7 @@ class _CoreProcessGuideListState extends State<CoreProcessGuideList> {
                         overflow: TextOverflow.ellipsis,
                         maxLines: 2,
                         style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                          color: CoreColors.textColor,
+                          color: CoreDesignSystem.instance.text1,
                           fontWeight: FontWeight.w500,
                         ),
                       ),
@@ -183,7 +193,7 @@ class _CoreProcessGuideListState extends State<CoreProcessGuideList> {
                         overflow: TextOverflow.ellipsis,
                         maxLines: 2,
                         style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                          color: CoreColors.textColor,
+                          color: CoreDesignSystem.instance.text2,
                           fontWeight: FontWeight.w300,
                         ),
                       ),
@@ -201,37 +211,45 @@ class _CoreProcessGuideListState extends State<CoreProcessGuideList> {
                   containerPadding: const EdgeInsets.all(0),
                   decoration: CoreBoxDecoration.getSmoothBoxDecoration(
                     borderRadius: 12,
-                    color: CoreColors.backgroundColor,
+                    color: CoreDesignSystem.instance.background,
                   ),
                   placeHolder: buildPlaceholder(
                     name: item?.title ?? "-",
                     context: context,
-                    color: CoreColors.text1color,
+                    color: CoreDesignSystem.instance.text1,
                   ),
                 ),
               ],
             ),
             Row(
               children: [
-                Icon(Icons.star, color: Colors.green, size: 20),
+                Icon(
+                  Icons.star,
+                  color: CoreDesignSystem.instance.success,
+                  size: 20,
+                ),
                 const SizedBox(width: 4),
                 Expanded(
                   child: Text(
                     item?.difficultyLevel ?? "-",
 
                     style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                      color: CoreColors.textColor,
+                      color: CoreDesignSystem.instance.text1,
                       fontWeight: FontWeight.w600,
                     ),
                   ),
                 ),
-                Icon(Icons.alarm, color: Colors.grey, size: 17),
+                Icon(
+                  Icons.alarm,
+                  color: CoreDesignSystem.instance.text3,
+                  size: 17,
+                ),
                 const SizedBox(width: 4),
                 Text(
                   item?.estimatedTime ?? "",
 
                   style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                    color: CoreColors.borderColor,
+                    color: CoreDesignSystem.instance.text2,
                     fontWeight: FontWeight.w400,
                   ),
                 ),
